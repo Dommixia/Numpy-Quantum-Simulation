@@ -25,25 +25,36 @@ CNOT = np.array([[1, 0, 0, 0],
 
 #Matrix Multiplication
 def applyGate(gate, state):
-    return gate @ state
+    return normalize(gate @ state)
 
 def measure(state):
     prob = np.abs(state)**2
     outcome = np.random.choice(len(state), p = prob)
     return outcome
 
+def normalize(state):
+    norm = np.linalg.norm(state)
+    return state / norm
+
+def isNormalized(state):
+    return np.isclose(np.sum(np.abs(state)**2), 1.0)
+
 #Multi Qubit Gates via Tensor Products
-def applyQubit0(gate, state):
-    f_gate = np.kron(gate, I)
-    return f_gate @ state
-def applyQubit1(gate, state):
-    f_gate = np.kron(I, gate)
-    return f_gate @ state
+def applyGateToQubit(gate, qubit_index, n_qubits, state):
+    full_gate = np.array([[1]], dtype=complex)
+    for i in range(n_qubits):
+        if i == qubit_index:
+            full_gate = np.kron(full_gate, gate)
+        else:
+            full_gate = np.kron(full_gate, I)
+    newState = normalize(full_gate @ state)
+    assert isNormalized(newState), "State not normalized"
+    return newState
 def applyCNOT(state):
-    return CNOT @ state
+    return normalize(CNOT @ state)
 
 hq0 = np.kron(H_gate, I)
-state = hq0 @q00
-
+state = applyGateToQubit(H_gate, 0, 2, q00)
 bell_state = applyCNOT(state)
 print(bell_state)
+print(np.sum(np.abs(bell_state)**2))
