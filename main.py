@@ -52,7 +52,7 @@ def applyCNOT(state):
 hq0 = np.kron(H_gate, I)
 state = applyGateToQubit(H_gate, 0, 2, q00)
 bell_state = applyCNOT(state)
-bit, collapsed_state = measure(bell_state, 0, 2)
+bit, collapsed_state = measure(bell_state, 0, 2 )
 print(bell_state)
 print(np.sum(np.abs(bell_state)**2))
 print(f"Measured qubit 0: {bit}")
