@@ -43,7 +43,7 @@ class Quantum(object):
         return bit, new_state
 
     @staticmethod
-    def applyGateToQubit(gate, qubit_index, n_qubits, state):
+    def applygatetoqubit(gate, qubit_index, n_qubits, state):
         full_gate = np.array([[1]], dtype=complex)
         for i in range(n_qubits):
             if i == qubit_index:
