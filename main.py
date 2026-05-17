@@ -58,7 +58,7 @@ class Quantum(object):
     def applyCNOT(state):
         return normalize(CNOT @ state)
 
-state = Quantum.applyGateToQubit(H_gate, 0, 2, q00)
+state = Quantum.applygatetoqubit(H_gate, 0, 2, q00)
 bell_state = Quantum.applyCNOT(state)
 bit, collapsed_state = Quantum.measure(bell_state, 0, 2 )
 print(bell_state)
